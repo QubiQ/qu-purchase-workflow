@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_limit_stock_supplierinfo_form_view" model="ir.ui.view">
+        <field name="name">product.limit.stock.supplierinfo.form.view</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//group[1]/group[last()]" position="after">
+        		<group string="Purchase Limit">
+          			<field name="limit_purchase_bool"/>
+          			<field
+          				name="limit_purchase_range"
+          				attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"
+          			/>
+                    <label
+                        for="date_range_init"
+                        string="Date Range"
+                        attrs="{'invisible': ['|', ('limit_purchase_bool', '=', False), ('limit_purchase_range', '!=', 'custom')]}"
+                    />
+                    <div attrs="{'invisible': ['|', ('limit_purchase_bool', '=', False), ('limit_purchase_range', '!=', 'custom')]}">
+                        <field name="date_range_init" class="oe_inline"/> to <field name="date_range_end" class="oe_inline"/>
+                    </div>
+          			<label
+          				for="limit_purchase_actual"
+          				string="Quantity"
+          				attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"
+          			/>
+                  	<div attrs="{'invisible': [('limit_purchase_bool', '=', False)]}">
+                      	<field name="limit_purchase_actual" class="oe_inline"/> from <field name="limit_purchase_quantity" class="oe_inline"/>
+                    </div>
+                    <field name="limit_purchase_purchase_line_warn"
+                        attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"
+                    />
+        		</group>
+        	</xpath>
+        </field>
+    </record>
+</odoo>
