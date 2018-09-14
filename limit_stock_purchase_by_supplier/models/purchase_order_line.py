@@ -19,7 +19,8 @@ class PurchaseOrderLine(models.Model):
             date=self.order_id.date_order and self.order_id.date_order[:10],
             uom_id=self.product_uom)
         res = {}
-        if seller and seller.limit_purchase_purchase_line_warn != 'none' and \
+        if seller and seller.limit_purchase_bool and \
+           seller.limit_purchase_purchase_line_warn != 'none' and \
            seller.limit_purchase_actual + self.product_qty >=\
            seller.limit_purchase_quantity:
             title = _("Warning for %s") % self.product_id.name
