@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-# Copyright (c) 2018 QubiQ (http://www.qubiq.es)
-
+# Copyright 2018 valentin.vinagre@qubiq.es
+# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl)
 
 from odoo import models, api, fields, _
 from odoo.addons import decimal_precision as dp
@@ -63,12 +61,6 @@ class ProductSupplierinfo(models.Model):
     @api.multi
     @api.depends('limit_purchase_bool', 'limit_purchase_range')
     def _get_limit_purchase_actual(self):
-        in_operation_type_ids = self.env['stock.picking.type'].search([
-            ('code', '=', 'incoming')
-        ]).ids
-        out_operation_type_ids = self.env['stock.picking.type'].search([
-            ('code', '=', 'outgoing')
-        ]).ids
         dates_range = {
             'month': {},
             'quarter': {},
@@ -119,55 +111,46 @@ class ProductSupplierinfo(models.Model):
                 date_init = dates_range[sel.limit_purchase_range]['init']
                 date_end = dates_range[sel.limit_purchase_range]['end']
             else:
-                date_init = datetime.combine(
-                        fields.Datetime.from_string(
-                            sel.date_range_init).date(),
-                        datetime.min.time()
-                    )
-                date_end = datetime.combine(
-                        fields.Datetime.from_string(sel.date_range_end).date(),
-                        datetime.max.time()
-                    )
+                date_init = fields.Date.from_string(
+                    sel.date_range_init)
+                date_end = fields.Date.from_string(
+                    sel.date_range_end)
             domain = [
                 ('partner_id', 'child_of', sel.name.id),
-                ('state', 'in', ('purchase', 'done')),
-                ('date_order', '>=', fields.Datetime.to_string(date_init)),
-                ('date_order', '<=', fields.Datetime.to_string(date_end))
+                ('state', 'in', ('open', 'paid')),
+                ('date_invoice', '>=', fields.Date.to_string(date_init)),
+                ('date_invoice', '<=', fields.Date.to_string(date_end))
             ]
             if sel.company_id:
                 domain.append(
                     ('company_id', '=', sel.company_id.id)
                 )
-            picking_ids =\
-                self.env['purchase.order'].search(
-                    domain
-                ).mapped('picking_ids').filtered(lambda x: x.state in ('done'))
-            in_move_lines = picking_ids.filtered(
-                    lambda x: x.picking_type_id.id in in_operation_type_ids
-                ).mapped('move_lines')
-            out_move_lines = picking_ids.filtered(
-                    lambda x: x.picking_type_id.id in out_operation_type_ids
-                ).mapped('move_lines')
+            in_invoice_lines = self.env['account.invoice'].search(
+                    domain + [('type', '=', 'in_invoice')]
+                ).mapped('invoice_line_ids')
+            out_invoice_lines = self.env['account.invoice'].search(
+                    domain + [('type', '=', 'in_refund')]
+                ).mapped('invoice_line_ids')
             in_qty_total = 0.0
             out_qty_total = 0.0
             if sel.product_id:  # Variants
                 in_qty_total =\
-                    sum(in_move_lines.filtered(
+                    sum(in_invoice_lines.filtered(
                         lambda x: x.product_id.id == sel.product_id.id
-                    ).mapped('quantity_done'))
+                    ).mapped('quantity'))
                 out_qty_total =\
-                    sum(out_move_lines.filtered(
+                    sum(out_invoice_lines.filtered(
                         lambda x: x.product_id.id == sel.product_id.id
-                    ).mapped('quantity_done'))
+                    ).mapped('quantity'))
             else:  # Template
                 in_qty_total =\
-                    sum(in_move_lines.filtered(
+                    sum(in_invoice_lines.filtered(
                         lambda x: x.product_id.product_tmpl_id.id ==
                         sel.product_tmpl_id.id
-                    ).mapped('quantity_done'))
+                    ).mapped('quantity'))
                 out_qty_total =\
-                    sum(out_move_lines.filtered(
+                    sum(out_invoice_lines.filtered(
                         lambda x: x.product_id.product_tmpl_id.id ==
                         sel.product_tmpl_id.id
-                    ).mapped('quantity_done'))
+                    ).mapped('quantity'))
             sel.limit_purchase_actual = in_qty_total - out_qty_total

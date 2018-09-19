@@ -26,7 +26,7 @@ In Purchases/Purchase/Vendor Pricelists:
 	* The number on the right is the maximum of the purchase amount of the product.
 * Warning in Lines: select the action to be taken when the maximum quantity is exceeded.
 
-The quantity are calculated from the purchase orders, if need return products the correct action is generate one return from the picking of the purchase order.
+The quantity are calculated from the purchase invoices.
 
 If the field *product variant* is set, the quantity only take this variant, but if *product variant* is empty, quantity take the field 'product' and all its variants.
 
@@ -34,15 +34,19 @@ If the field *product variant* is set, the quantity only take this variant, but 
 Usage
 =====
 
-Create one purchase order, select the supplier and the products.
+Create one purchase order, select the supplier and the products and invoice them.
 
-Error management
-================
 
-Los errores/fallos se gestionan en `las incidencias de GitHub <https://github.com/QubiQ/qu-purchase-workflow/issues>`_.
-En caso de problemas, compruebe por favor si su incidencia ha sido ya
-reportada. Si fue el primero en descubrirla, ayúdenos a solucionarla indicando
-una detallada descripción `aquí <https://github.com/QubiQ/qu-purchase-workflow/issues/new>`_.
+Bug Tracker
+===========
+
+Bugs and errors are managed in `issues of GitHub <https://github.com/QubiQ/qu-purchase-workflow/issues>`_.
+In case of problems, please check if your problem has already been
+reported. If you are the first to discover it, help us solving it by indicating
+a detailed description `here <https://github.com/QubiQ/qu-purchase-workflow/issues/new>`_.
+
+Do not contact contributors directly about support or help with technical issues.
+
 
 
 Credits
@@ -51,6 +55,12 @@ Credits
 Authors
 ~~~~~~~
 
+* QubiQ, Odoo Community Association (OCA)
+
+
+Contributors
+~~~~~~~~~~~~
+
 * Valentin Vinagre <valentin.vinagre@qubiq.es>
 
 
@@ -58,3 +68,11 @@ Maintainer
 ~~~~~~~~~~
 
 This module is maintained by QubiQ.
+
+.. image:: https://pbs.twimg.com/profile_images/702799639855157248/ujffk9GL_200x200.png
+   :alt: QubiQ
+   :target: https://www.qubiq.es
+
+This module is part of the `QubiQ/qu-purchase-workflow <https://github.com/QubiQ/qu-purchase-workflow>`_.
+
+To contribute to this module, please visit https://github.com/QubiQ.
