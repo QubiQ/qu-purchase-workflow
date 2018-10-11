@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 Oscar Navarro <oscar.navarro@qubiq.es>
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="purchase_order_supplierinfo_form_view" model="ir.ui.view">
+        <field name="name">purchase.order.limit.stock.supplierinfo.form.view</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/tree[1]/field[last()]" position="after">
+                <button name="action_quota_view" type="object" string="Quota" class="oe_highlight" context="{'line_id': id}"
+                    attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"/>
+                <field name="limit_purchase_bool" readonly="1" force_save="1" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_order_line_supplierinfo_form_view" model="ir.ui.view">
+        <field name="name">Product Quota Info</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="arch" type="xml">
+            <form string="Invoice Date Warning" create="false" edit="false">
+                <!--
+                    Hides the footer that contains "Save" and "Cancel" buttons.
+                -->
+                <script>
+                    $(document).ready(function(){
+                    $(".modal-footer").hide();
+                    });
+                </script>
+                <group>
+                    <group>
+                        <field name="company_id" readonly="1" string="Company: "/>
+                        <field name="name" readonly="1" string="Supplier:" />                                              
+                    </group>
+                    <group>
+                        <label
+                          for="limit_purchase_actual"
+                          string="Quantity"
+                        />
+                        <div>
+                            <field name="limit_purchase_actual" readonly="1" class="oe_inline"/> from <field name="limit_purchase_quantity" readonly="1" class="oe_inline"/>
+                        </div>
+                        <field name="limit_purchase_range" readonly="1" class="oe_inline"/>                          
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -35,6 +35,7 @@ Usage
 =====
 
 Create one purchase order, select the supplier and the products and invoice them.
+If a purchase order line has a product with a purchase limit, a button will appear to check it's purchase limit information without including the current invoice line.
 
 
 Bug Tracker
@@ -62,6 +63,7 @@ Contributors
 ~~~~~~~~~~~~
 
 * Valentin Vinagre <valentin.vinagre@qubiq.es>
+* Oscar Navarro <oscar.navarro@qubiq.es>
 
 
 Maintainer

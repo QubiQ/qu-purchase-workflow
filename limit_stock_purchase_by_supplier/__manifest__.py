@@ -15,6 +15,7 @@
     ],
     'data': [
         'views/product_supplierinfo.xml',
+        'views/purchase_views.xml',
     ],
     'category': 'Purchase',
     'installable': True,
