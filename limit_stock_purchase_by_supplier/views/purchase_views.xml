@@ -18,6 +18,7 @@
     <record id="purchase_order_line_supplierinfo_form_view" model="ir.ui.view">
         <field name="name">Product Quota Info</field>
         <field name="model">product.supplierinfo</field>
+        <field eval="99" name="priority"/>
         <field name="arch" type="xml">
             <form string="Invoice Date Warning" create="false" edit="false">
                 <!--

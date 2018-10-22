@@ -7,13 +7,13 @@
         <field name="model">product.supplierinfo</field>
         <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
         <field name="arch" type="xml">
-          <xpath expr="//group[1]/group[last()]" position="after">
-            <group string="Purchase Limit">
-                <field name="limit_purchase_bool"/>
-                <field
-                  name="limit_purchase_range"
-                  attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"
-                />
+            <xpath expr="//group[1]/group[last()]" position="after">
+                <group string="Purchase Limit">
+                    <field name="limit_purchase_bool"/>
+                    <field
+                      name="limit_purchase_range"
+                      attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"
+                    />
                     <label
                         for="date_range_init"
                         string="Date Range"
@@ -22,19 +22,19 @@
                     <div attrs="{'invisible': ['|', ('limit_purchase_bool', '=', False), ('limit_purchase_range', '!=', 'custom')]}">
                         <field name="date_range_init" class="oe_inline"/> to <field name="date_range_end" class="oe_inline"/>
                     </div>
-                <label
-                  for="limit_purchase_actual"
-                  string="Quantity"
-                  attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"
-                />
+                    <label
+                      for="limit_purchase_actual"
+                      string="Quantity"
+                      attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"
+                    />
                     <div attrs="{'invisible': [('limit_purchase_bool', '=', False)]}">
                         <field name="limit_purchase_actual" class="oe_inline"/> from <field name="limit_purchase_quantity" class="oe_inline"/>
                     </div>
                     <field name="limit_purchase_purchase_line_warn"
                         attrs="{'invisible': [('limit_purchase_bool', '=', False)]}"
                     />
-            </group>
-          </xpath>
+                </group>
+            </xpath>
         </field>
     </record>
 </odoo>
